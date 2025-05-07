@@ -1,4 +1,4 @@
-```markdown
+``` markdown
 # reCAPTCHA v3 Token Generator
 
 A simple HTML page that generates reCAPTCHA v3 tokens for testing backend verification with tools like Postman.
