@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>reCAPTCHA v3 Token Generator</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lc2tpYqAAAAACApQooGwcppNWTEaD3YUUFIa6-K"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      .container {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-height: 100px;
+        margin: 10px 0;
+      }
+      button {
+        background: #4285f4;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background: #3367d6;
+      }
+      .info {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e8f0fe;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>reCAPTCHA v3 Token Generator</h1>
+      <p>
+        Click the button below to generate a reCAPTCHA token. You can then copy
+        this token to use with Postman for backend verification.
+      </p>
+
+      <button id="generateToken">Generate reCAPTCHA Token</button>
+
+      <h3>Generated Token:</h3>
+      <textarea
+        id="tokenOutput"
+        readonly
+        placeholder="Token will appear here..."
+      ></textarea>
+
+      <button id="copyToken">Copy Token</button>
+
+      <div class="info">
+        <h3>How to verify this token in your backend:</h3>
+        <p>Send a POST request to Google's verification endpoint:</p>
+        <p>
+          <strong>URL:</strong> https://www.google.com/recaptcha/api/siteverify
+        </p>
+        <p><strong>Parameters:</strong></p>
+        <ul>
+          <li><strong>secret</strong>: Your reCAPTCHA secret key</li>
+          <li><strong>response</strong>: The token you copied above</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById('generateToken')
+        .addEventListener('click', function () {
+          grecaptcha.ready(function () {
+            grecaptcha
+              .execute('6Lc2tpYqAAAAACApQooGwcppNWTEaD3YUUFIa6-K', {
+                action: 'submit',
+              })
+              .then(function (token) {
+                document.getElementById('tokenOutput').value = token;
+              });
+          });
+        });
+
+      document
+        .getElementById('copyToken')
+        .addEventListener('click', function () {
+          const tokenOutput = document.getElementById('tokenOutput');
+          tokenOutput.select();
+          document.execCommand('copy');
+          alert('Token copied to clipboard!');
+        });
+    </script>
+  </body>
+</html>
